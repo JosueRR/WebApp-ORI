@@ -1,6 +1,6 @@
 import React from 'react'; 
 
-const About = () => { 
+const Home = () => { 
 return ( 
 	<div 
 	style={{ 
@@ -10,9 +10,9 @@ return (
 		height: '100vh'
 	}} 
 	> 
-	<h1>Welcome to ORI-Activos No Tecnológicos App</h1> 
+	<h1 className=' font-myriad font-bold text-4xl'>Welcome to ORI-Activos No Tecnológicos App</h1> 
 	</div> 
 ); 
 }; 
 
-export default About;
+export default Home;

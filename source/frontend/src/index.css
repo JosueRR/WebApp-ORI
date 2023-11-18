@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    background-color: white;
+@font-face {
+    font-family: 'Myriad Pro';
+    src: url('./fonts/MYRIADPRO-REGULAR.OTF') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Myriad Pro';
+    src: url('./fonts/MYRIADPRO-BOLD.OTF') format('opentype');
+    font-weight: bold;
+    font-style: normal;
 }
