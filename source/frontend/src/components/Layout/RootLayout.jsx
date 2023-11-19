@@ -26,7 +26,7 @@ function RootLayout({children}) {
                 <SidebarItem icon={<Settings size={20} />} text={"Statistics"} />
                 <SidebarItem icon={<LifeBuoy size={20} />} text={"Statistics"} />
             </Sidebar>
-            <main className="justify-center h-full flex-1 px-8 py-4 border-2 mt-16">{outlet}</main>
+            <main id='page-content' className="justify-center h-full flex-1 px-8 py-4 border-2 mt-16 ml-20">{outlet}</main>
         </div>
     );
 }

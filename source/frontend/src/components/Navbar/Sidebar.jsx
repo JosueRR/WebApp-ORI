@@ -10,7 +10,7 @@ export default function Sidebar({ children }) {
   
   return (
     <div id="Whole-Component">
-        <nav className="w-screen h-14 top-0 fixed bg-Celeste2UCR flex justify-between" id="navbar">
+        <nav className="w-screen h-14 z-10 top-0 fixed bg-Celeste2UCR flex justify-between" id="navbar">
             <div className="flex items-center pl-7">
                 <img
                     src="https://drive.google.com/uc?export=download&id=1Vv4vGu4P71TFXffdgOVlsqL-hqIqaOEm"
@@ -27,50 +27,50 @@ export default function Sidebar({ children }) {
                 className=" w-60 h-auto pr-7"
             />
         </nav>
-        <aside className="h-screen pt-12" id="SideNavBar">
-        <nav className={`h-full flex flex-col bg-white border-r shadow-sm
-        ${
-            expanded ? "w-56" : "w-20"
-        }`}>
-            <div className="py-4 px-5 p-pb-2 flex items-center">
-                <button
-                    onClick={() => setExpanded((curr) => !curr)}
-                    className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
-                >
-                    {expanded ? <ChevronFirst /> : <ChevronLast />}
-                </button>
-                <div className="flex items-center px-2 justify-center">
-                    <h2 className={`font-semibold px-2 text-xl overflow-hidden transition-all
-                                ${expanded ? "w-16" : "w-0 invisible"}`}>
-                        Menú
-                    </h2>
-                </div>
-            </div>
+        <aside className="h-screen pt-12 z-0 fixed" id="SideNavBar">
+          <nav className={`h-full flex flex-col bg-white border-r shadow-sm
+          ${
+              expanded ? "w-56" : "w-20"
+          }`}>
+              <div className="py-4 px-5 p-pb-2 flex items-center">
+                  <button
+                      onClick={() => setExpanded((curr) => !curr)}
+                      className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100"
+                  >
+                      {expanded ? <ChevronFirst /> : <ChevronLast />}
+                  </button>
+                  <div className="flex items-center px-2 justify-center">
+                      <h2 className={`font-semibold px-2 text-xl overflow-hidden transition-all
+                                  ${expanded ? "w-16" : "w-0 invisible"}`}>
+                          Menú
+                      </h2>
+                  </div>
+              </div>
 
-            <SidebarContext.Provider value={{ expanded }}>
-            <ul className="flex-1 px-3">{children}</ul>
-            </SidebarContext.Provider>
+              <SidebarContext.Provider value={{ expanded }}>
+              <ul className="flex-1 px-3">{children}</ul>
+              </SidebarContext.Provider>
 
-            <div className="border-t flex p-3 py-4">
-            <img
-                src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
-                alt=""
-                className="w-10 h-10 rounded-md"
-            />
-            <div
-                className={`
-                flex justify-between items-center
-                overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}
-            `}
-            >
-                <div className="leading-4">
-                <h4 className="font-semibold">Juan José Granados</h4>
-                <span className="text-xs text-gray-600">juan.granados@ucr.ac.cr</span>
-                </div>
-                <MoreVertical size={20} />
-            </div>
-            </div>
-        </nav>
+              <div className="border-t flex p-3 py-4">
+              <img
+                  src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
+                  alt=""
+                  className="w-10 h-10 rounded-md"
+              />
+              <div
+                  className={`
+                  flex justify-between items-center
+                  overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}
+              `}
+              >
+                  <div className="leading-4">
+                  <h4 className="font-semibold">Juan José Granados</h4>
+                  <span className="text-xs text-gray-600">juan.granados@ucr.ac.cr</span>
+                  </div>
+                  <MoreVertical size={20} />
+              </div>
+              </div>
+          </nav>
         </aside>
     </div>
   )
