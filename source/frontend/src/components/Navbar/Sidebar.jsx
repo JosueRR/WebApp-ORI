@@ -10,7 +10,7 @@ export default function Sidebar({ children }) {
   
   return (
     <div id="Whole-Component">
-        <nav className="w-screen h-14 z-10 top-0 fixed bg-Celeste2UCR flex justify-between" id="navbar">
+        <nav className="w-screen h-14 z-10 top-0 fixed bg-Celeste2UCR flex border-y-gray-200 border-b-2 justify-between" id="navbar">
             <div className="flex items-center pl-7">
                 <img
                     src="https://drive.google.com/uc?export=download&id=1Vv4vGu4P71TFXffdgOVlsqL-hqIqaOEm"
