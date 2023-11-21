@@ -1,15 +1,9 @@
 import Sidebar, { SidebarItem } from "../Navbar/Sidebar";
-import { useOutlet } from "react-router-dom";
+import { useOutlet, useLocation } from "react-router-dom";
 
 import {
-    LifeBuoy,
-    Receipt,
     Boxes,
-    Package,
-    UserCircle,
-    BarChart3,
     Settings,
-    LampDesk,
     FileBox,
     Users2,
     Truck,
@@ -20,16 +14,17 @@ import {
 
 function RootLayout({children}) {
     const outlet = useOutlet();
+    let location = useLocation();
     return (
         <div className="flex">
             <Sidebar>
-                <SidebarItem icon={<Boxes size={20} />} text={"Activos"} active />
-                <SidebarItem icon={<FileBox size={20} />} text={"Tipos"} />
+                <SidebarItem icon={<Boxes size={20} />} text={"Activos"} path={"/"} active={location.pathname === "/"} />
+                <SidebarItem icon={<FileBox size={20} />} text={"Tipos"} path={'/about'} active={location.pathname === "/about"}/>
                 <hr className="my-3" />
                 <SidebarItem icon={<Users2 size={20} />} text={"Responsables"} />
-                <SidebarItem icon={<Truck size={20} />} text={"Proveedores"} alert />
+                <SidebarItem icon={<Truck size={20} />} text={"Proveedores"} />
                 <hr className="my-3" />
-                <SidebarItem icon={<ClipboardCheck size={20} />} text={"Solicitudes"} />
+                <SidebarItem icon={<ClipboardCheck size={20} />} text={"Solicitudes"} alert/>
                 <SidebarItem icon={<BookOpen size={20} />} text={"Bitacora"} />
                 <hr className="my-3" />
                 <SidebarItem icon={<Settings size={20} />} text={"Ajustes"} />

@@ -1,12 +1,13 @@
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react"
 import { useContext, createContext, useState } from "react"
+import { NavLink } from "react-router-dom";
 
 const SidebarContext = createContext()
 // https://drive.google.com/uc?export=download&id=1Pwk3tshum6f-dBKg8FlTo1RU-zM_qhQn
 
 
 export default function Sidebar({ children }) {
-  const [expanded, setExpanded] = useState(true)
+  const [expanded, setExpanded] = useState(false)
   
   return (
     <div id="Whole-Component">
@@ -18,7 +19,7 @@ export default function Sidebar({ children }) {
                     alt=""
                 />
                 <h1 className="font-myriad text-2xl flex justify-center items-center pl-2 pointer-events-none">
-                    Gestión Actvivos No Técnologicos
+                    Gestión Activos No Técnologicos
                 </h1>
             </div>
             <img
@@ -76,50 +77,52 @@ export default function Sidebar({ children }) {
   )
 }
 
-export function SidebarItem({ icon, text, active, alert }) {
+export function SidebarItem({ icon, text, active, alert, path }) {
   const { expanded } = useContext(SidebarContext)
   
   return (
-    <li
-      className={`
-        relative flex items-center py-2 px-3 my-1
-        font-medium rounded-md cursor-pointer
-        transition-colors group
-        ${
-          active
-            ? "bg-gradient-to-tr from-blue-200 to-blue-100 text-blue-800"
-            : "hover:bg-blue-50 text-gray-600"
-        }
-    `}
-    >
-      {icon}
-      <span
-        className={`overflow-hidden transition-all ${
-          expanded ? "w-52 ml-3" : "w-0"
-        }`}
-      >
-        {text}
-      </span>
-      {alert && (
-        <div
-          className={`absolute right-2 w-2 h-2 rounded bg-blue-400 ${
-            expanded ? "" : "top-2"
-          }`}
-        />
-      )}
-
-      {!expanded && (
-        <div
-          className={`
-          absolute left-full rounded-md px-2 py-1 ml-6
-          bg-blue-100 text-blue-800 text-sm
-          invisible opacity-20 -translate-x-3 transition-all
-          group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
+    <NavLink to={path}>
+      <li
+        className={`
+          relative flex items-center py-2 px-3 my-1
+          font-medium rounded-md cursor-pointer
+          transition-colors group
+          ${
+            active
+              ? "bg-gradient-to-tr from-blue-200 to-blue-100 text-blue-800"
+              : "hover:bg-blue-50 text-gray-600"
+          }
       `}
+      >
+        {icon}
+        <span
+          className={`overflow-hidden transition-all ${
+            expanded ? "w-52 ml-3" : "w-0"
+          }`}
         >
-          {text}
-        </div>
-      )}
-    </li>
+        {text}
+        </span>
+        {alert && (
+          <div
+            className={`absolute right-2 w-2 h-2 rounded bg-blue-400 ${
+              expanded ? "" : "top-2"
+            }`}
+          />
+        )}
+
+        {!expanded && (
+          <div
+            className={`
+            absolute left-full rounded-md px-2 py-1 ml-6
+            bg-blue-100 text-blue-800 text-sm
+            invisible opacity-20 -translate-x-3 transition-all
+            group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
+        `}
+          >
+            {text}
+          </div>
+        )}
+      </li>
+    </NavLink>
   )
 }

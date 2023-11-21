@@ -10,7 +10,7 @@ return (
 		height: '100vh'
 	}} 
 	> 
-	<h1>Welcome to ORI-Activos No Tecnológicos App</h1> 
+	<h1>Welcome to EVENTS ORI-Activos No Tecnológicos App</h1> 
 	</div> 
 ); 
 }; 
