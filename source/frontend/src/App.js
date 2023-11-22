@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './components/GeneralPages';
 import About from './components/GeneralPages/about';
 import Events from './components/GeneralPages/events';
+import ActivosGeneralView from "./components/Activos/activos_general_view";
 
 /* Layout of app with the navbar */
 import RootLayout from "./components/Layout/RootLayout";
@@ -19,7 +20,7 @@ const AdminApp = () => {
     <div>
       <Routes>
         <Route element={<RootLayout/>}>
-          <Route path='/' exact element ={<Home/>}></Route>
+          <Route path='/' exact element ={<ActivosGeneralView/>}></Route>
           <Route path='/about' element ={<About/>}></Route>
           <Route path='/events' element ={<Events/>}></Route>
         </Route>
