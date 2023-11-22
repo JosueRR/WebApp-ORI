@@ -8,9 +8,12 @@ router.get('/get', async (request, response) => {
         const sqlQuery = `
         SELECT 
             Activo.IDActivo, 
-            Tipo.Descripcion AS TipoDescripcion, 
+            Tipo.Descripcion AS Tipo, 
             Activo.Placa, 
-            Responsable.Nombre AS ResponsableNombre
+            Responsable.Nombre AS ResponsableNombre,
+            Activo.ActivoFijo,
+            Activo.Descripcion,
+            Activo.Estado
         FROM 
             Activo
         JOIN 
