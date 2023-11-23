@@ -29,7 +29,7 @@ function RootLayout({children}) {
                 <hr className="my-3" />
                 <SidebarItem icon={<Settings size={20} />} text={"Ajustes"} />
             </Sidebar>
-            <main id='page-content' className="justify-center h-full flex-1 px-8 py-4 border-2 mt-16 ml-20">{outlet}</main>
+            <main id='page-content' className="justify-center h-full flex-1 px-8 py-4 mt-16 ml-20">{outlet}</main>
         </div>
     );
 }

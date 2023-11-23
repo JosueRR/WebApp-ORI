@@ -5,6 +5,7 @@ const pool = require('../helpers/DbConfig');
 // Getting all activos from db
 router.get('/get', async (request, response) => {
     try {
+        const {q} = request.query; // this is for the search bar
         const sqlQuery = `
         SELECT 
             Activo.IDActivo, 
@@ -21,10 +22,24 @@ router.get('/get', async (request, response) => {
         JOIN 
             Responsable ON Activo.IDResponsable = Responsable.IDResponsable;
         ;`
-
-
         const rows = await pool.query(sqlQuery)
-       response.status(200).json(rows);
+        
+        // this filters the data for the search bar
+        const keys = ['IDActivo', 'Tipo', 'Estado', 'Placa', 'ResponsableNombre'];
+        const search = (data) => {
+            return data.filter((item) =>
+              keys.some((key) => 
+              item[key].toString().toLowerCase().includes(q.toLowerCase())
+            ));
+        };
+
+        // Check if searchQuery is provided
+        if (q) {
+            response.status(200).json(search(rows));
+        } else {
+            response.status(200).json(rows);
+        }
+
     } catch (error) {
         response.status(500).send(error.message)
     }
@@ -36,9 +51,12 @@ router.get('/get/:id', async (request, response) => {
         const sqlQuery = `
             SELECT 
                 Activo.IDActivo, 
-                Tipo.Descripcion AS TipoDescripcion, 
+                Tipo.Descripcion AS Tipo, 
                 Activo.Placa, 
-                Responsable.Nombre AS ResponsableNombre
+                Responsable.Nombre AS ResponsableNombre,
+                Activo.ActivoFijo,
+                Activo.Descripcion,
+                Activo.Estado
             FROM 
                 Activo
             JOIN 
@@ -50,6 +68,16 @@ router.get('/get/:id', async (request, response) => {
         `;
         const rows = await pool.query(sqlQuery, request.params.id)
         response.status(200).json(rows);
+        
+        const keys = ['IDActivo', 'Tipo', 'Estado', 'Descripcion', 'Placa', 'ResponsableNombre'];
+        
+        const search = (data) => {
+            return data.filter((item) =>
+              keys.some((key) => item[key].toLowerCase().includes(q))
+            );
+        };
+
+
     } catch (error) {
         response.status(500).send(error.message)
     }
