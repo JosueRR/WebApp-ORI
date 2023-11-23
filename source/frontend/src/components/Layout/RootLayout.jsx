@@ -18,7 +18,7 @@ function RootLayout({children}) {
     return (
         <div className="flex">
             <Sidebar>
-                <SidebarItem icon={<Boxes size={20} />} text={"Activos"} path={"/"} active={location.pathname === "/"} />
+                <SidebarItem icon={<Boxes size={20} />} text={"Activos"} path={"/"} active={location.pathname === "/activos"} />
                 <SidebarItem icon={<FileBox size={20} />} text={"Tipos"} path={'/about'} active={location.pathname === "/about"}/>
                 <hr className="my-3" />
                 <SidebarItem icon={<Users2 size={20} />} text={"Responsables"} />

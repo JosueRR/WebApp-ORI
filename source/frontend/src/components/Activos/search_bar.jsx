@@ -26,7 +26,7 @@ const SearchBar = ({ onSearchChange }) => {
                     text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary 
                     focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(0,192,243)] focus:outline-none 
                     dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
-                  placeholder="Buscar activo por tipo..."
+                  placeholder="Buscar activo..."
                   aria-label="Search"
                   aria-describedby="button-addon2"
                   onChange={e => onSearchChange(e.target.value)}

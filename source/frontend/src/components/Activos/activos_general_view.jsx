@@ -25,13 +25,14 @@ const ActivosGeneralView = () => {
             <div className='flex justify-center my-5 space-x-24'>
                 <div > <SearchBar onSearchChange={setQuery}/> </div>
                 <div>
-                    <button 
-                        class="px-6 py-2 flex items-center font-myriad font-bold text-xl text-black transition bg-Celeste2UCR rounded hover:bg-CelesteUCR space-x-2"
-                        onClick={'handleEdit'}
-                    >
-                        <span> Crear Activo </span>
-                        <PackagePlus size={21}/>
-                    </button>
+                    <a href='/activos/create'>
+                        <button 
+                            class="px-6 py-2 flex items-center font-myriad font-bold text-xl text-black transition bg-Celeste2UCR rounded hover:bg-CelesteUCR space-x-2"
+                        >
+                            <span> Crear Activo </span>
+                            <PackagePlus size={21}/>
+                        </button>
+                    </a>
                 </div>
             </div>
             {data ? (
@@ -43,5 +44,3 @@ const ActivosGeneralView = () => {
 }; 
 
 export default ActivosGeneralView;
-
-// https://www.youtube.com/watch?v=MY6ZZIn93V8 for the search
