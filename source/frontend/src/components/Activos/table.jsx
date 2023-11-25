@@ -1,11 +1,14 @@
 import React from "react";
 import { Edit, Trash2, AlertTriangle} from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import Popup from "./popup_delete";
+
 
 
 const Table = ({data, onDeleteRefresh}) => {
     const [showDeletePopup, setShowDeletePopup] = React.useState(false);
     const [activoToDelete, setActivoToDelete] = React.useState(null);
+    const navigate = useNavigate();
 
     function handleDelete() {
         fetch(`/backend/activos/delete/${activoToDelete}`, {
@@ -77,7 +80,7 @@ const Table = ({data, onDeleteRefresh}) => {
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap items-center justify-center flex">
                                         <button 
                                             class="px-2 py-2 font-bold text-white transition bg-blue-400 rounded hover:bg-blue-500"
-                                            onClick={'handleEdit'}
+                                            onClick={() => navigate(`/activos/edit/${activo.IDActivo}`)}
                                         >
                                             <Edit size={18} />
                                         </button>

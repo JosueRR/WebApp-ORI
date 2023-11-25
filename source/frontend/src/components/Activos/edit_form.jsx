@@ -1,68 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react'
 import { Check, X } from 'lucide-react';
 import Popup from './popup_create';
 
-const InputForm = () => {
+function FormEdit({ data }) {
     /* Manages popup */
-    const [formStatus, setFormStatus] = useState(false);
-
+    const [formStatus, setFormStatus] = React.useState(false);
     /* Fetches existing Tipo and Responsable from DB */
     const [TipoDB, setTipoDB] = React.useState(null);
     const [ResponsableDB, setResponsableDB] = React.useState(null);
-    
     /* keeps track of data input from user */
-    const [Placa, setPlaca] = React.useState(null);
-    const [Descripcion, setDescripcion] = React.useState(null);
-    const [FechaAdquisicion, setFechaAdquisicion] = React.useState(null);
-    const [Estado, setEstado] = React.useState(null);
-    const [Proveedor, setProveedor] = React.useState(null);
-    const [Fijo, setFijo] = React.useState(1);
-    const [IDResponsable, setIDResponsable] = React.useState(null);
-    const [IDTipo, setIDTipo] = React.useState(null);
-    const [Observaciones, setObservaciones] = React.useState(null);
+    const [IDActivo] = React.useState(data.IDActivo);
+    const [Placa, setPlaca] = React.useState(data.Placa);
+    const [Descripcion, setDescripcion] = React.useState(data.Descripcion);
+    const [FechaAdquisicion, setFechaAdquisicion] = React.useState(data.FechaAdquisicion.split('T')[0]);
+    const [Estado, setEstado] = React.useState(data.Estado);
+    const [Proveedor, setProveedor] = React.useState(data.Proveedor);
+    const [ActivoFijo, setFijo] = React.useState(data.ActivoFijo);
+    const [IDResponsable, setIDResponsable] = React.useState(data.IDResponsable);
+    const [IDTipo, setIDTipo] = React.useState(data.IDTipo);
+    const [Observaciones, setObservaciones] = React.useState(data.Observaciones);
 
-
-
-    /* Fetch for endpoint of TIPOS */
-    const getTipos = () => {
-        fetch(`/backend/activos/tipo/all`)
-            .then((res) => res.json())
-            .then((TipoDB) => {
-                setTipoDB(TipoDB)
-                if (TipoDB.length > 0) {
-                    setIDTipo(TipoDB[0].IDTipo);
-                }
-            });
-    }
-
-    /* Fetch for endpoint of TIPOS */
-    const getResponsables = () => {
-        fetch(`/backend/activos/responsable/all`)
-            .then((res) => res.json())
-            .then((ResponsableDB) => {
-                setResponsableDB(ResponsableDB)
-                if (ResponsableDB.length > 0) {
-                    setIDResponsable(ResponsableDB[0].IDResponsable);
-                }
-            });
-    }
-
-    /* Handles the form, passes the data to backend and creates an activo */
     function handleForm(event) {
-        event.preventDefault()
-        console.log("click")
+        event.preventDefault();
         let activo = {
+            IDActivo: IDActivo,
             Placa: Placa,
             Descripcion: Descripcion,
             FechaAdquisicion: FechaAdquisicion,
             Estado: Estado,
             Proveedor: Proveedor,
-            Fijo: Fijo,
+            ActivoFijo: ActivoFijo,
             IDResponsable: IDResponsable,
             IDTipo: IDTipo,
             Observaciones: Observaciones
         }
-        fetch('/backend/activos/create/guardar', {
+        fetch(`/backend/activos/edit/guardar`, {
             method: 'POST',
             body: JSON.stringify(activo),
             headers: { "Content-Type": "application/json" }
@@ -75,13 +47,29 @@ const InputForm = () => {
         })
         .then(function (body) {
             console.log(body);
-            setFormStatus({ success: true, message: 'El activo ha sido creado de forma exitosa.' });
+            setFormStatus({ success: true, message: 'El activo ha sido editado de forma exitosa.' });
         })
         .catch(function (error) {
             console.error('There has been a problem with your fetch operation:', error);
-            setFormStatus({ success: false, message: 'Se produjo un error y no se pudo crear el activo.' });
+            setFormStatus({ success: false, message: 'Se produjo un error y no se pudo editar el activo.' });
         });
     }
+
+    /* Fetch for endpoint of TIPOS */
+    const getTipos = () => {
+        fetch(`/backend/activos/tipo/all`)
+            .then((res) => res.json())
+            .then((TipoDB) => {setTipoDB(TipoDB)});
+    }
+
+    /* Fetch for endpoint of TIPOS */
+    const getResponsables = () => {
+        fetch(`/backend/activos/responsable/all`)
+            .then((res) => res.json())
+            .then((ResponsableDB) => { setResponsableDB(ResponsableDB) });
+    }
+    
+
 
     /* Set state */
     React.useEffect(() => {
@@ -89,8 +77,7 @@ const InputForm = () => {
         getTipos()
     }, []);
 
-
-    return ( 
+    return (
         <div>
             <div className=''>
                 <form method="POST" onSubmit={handleForm}
@@ -103,7 +90,7 @@ const InputForm = () => {
                                     Id
                                 </label>
                                 <input class="appearance-none italic text-center w-full block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                id="IDTipo" type="text" placeholder="Autogenerado" disabled/>
+                                id="IDTipo" type="text" placeholder={IDActivo} disabled/>
                             </div>
                         </div>
 
@@ -114,7 +101,7 @@ const InputForm = () => {
                                 </label>
                                 <input class="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 onChange={e => setPlaca(e.target.value)}
-                                id="Placa" type="text" placeholder="1234"/>
+                                id="Placa" type="text" placeholder={Placa}/>
                             </div>
                         </div>
 
@@ -125,7 +112,7 @@ const InputForm = () => {
                                 </label>
                                 <input class="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 onChange={e => setDescripcion(e.target.value)}
-                                id="Descripcion" type="text" placeholder="Silla de escritorio"/>
+                                id="Descripcion" type="text" placeholder={Descripcion}/>
                             </div>
                         </div>
 
@@ -136,7 +123,7 @@ const InputForm = () => {
                                 </label>
                                 <input class="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 onChange={e => setFechaAdquisicion(e.target.value)}
-                                id="FechaAdquisicion" type="text" placeholder="Año-Mes-Día"/>
+                                id="FechaAdquisicion" type="text" placeholder={FechaAdquisicion}/>
                             </div>
                         </div>
 
@@ -147,7 +134,7 @@ const InputForm = () => {
                                 </label>
                                 <input class="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 onChange={e => setEstado(e.target.value)}
-                                id="Estado" type="text" placeholder="Daños en el asiento"/>
+                                id="Estado" type="text" placeholder={Estado}/>
                             </div>
                         </div>
 
@@ -158,7 +145,7 @@ const InputForm = () => {
                                 </label>
                                 <input class="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 onChange={e => setProveedor(e.target.value)}
-                                id="Proveedor" type="text" placeholder="Provedor #1"/>
+                                id="Proveedor" type="text" placeholder={Proveedor}/>
                             </div>
                         </div>
 
@@ -169,6 +156,7 @@ const InputForm = () => {
                                 </label>
                                 <div class="relative">
                                     <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                                    value={ActivoFijo}
                                     onChange={e => setFijo(e.target.value)}
                                     id="ActivoFijo">
                                         <option value={1} >Sí</option>
@@ -188,6 +176,7 @@ const InputForm = () => {
                                 </label>
                                 <div class="relative">
                                     <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    value={IDResponsable}
                                     onChange={e => setIDResponsable(e.target.value)}
                                     id="IDResponsable">
                                         { ResponsableDB ? (
@@ -210,6 +199,7 @@ const InputForm = () => {
                                 </label>
                                 <div class="relative">
                                     <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    value={IDTipo}
                                     onChange={e => setIDTipo(e.target.value)}
                                     id="IDTipo">
                                         { TipoDB ? (
@@ -232,7 +222,7 @@ const InputForm = () => {
                                 </label>
                                 <input class="appearance-none w-96 block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 onChange={e => setObservaciones(e.target.value)}
-                                id="Observaciones" type="text" placeholder="Daños en el asiento"/>
+                                id="Observaciones" type="text" placeholder={Observaciones}/>
                             </div>
                         </div>
 
@@ -242,10 +232,10 @@ const InputForm = () => {
                                 class=" ml-4 px-2 py-1 flex items-center font-myriad font-bold text-lg text-green-800 transition bg-green-300 rounded hover:bg-green-400 space-x-2"
                             >
                                 <Check size={21}/>
-                                <span> Confirmar </span>
+                                <span> Guardar cambios </span>
                             </button>
                             
-                             <a href='/activos'>    
+                                <a href='/activos'>    
                                 <button 
                                     class="ml-4 px-2 py-1 flex items-center font-myriad font-bold text-lg text-red-800 transition bg-red-300 rounded hover:bg-red-400 space-x-2"
                                     type="button"
@@ -253,7 +243,7 @@ const InputForm = () => {
                                     <X size={21}/>
                                     <span> Cancelar </span>
                                 </button>
-                             </a>   
+                                </a>   
                         </div>
                         <Popup trigger={formStatus} setTrigger={setFormStatus} success={formStatus.success}>
                             <p className={`text-lg font-bold ${formStatus.success ? 'text-green-400' : 'text-red-400'}`}>
@@ -264,7 +254,7 @@ const InputForm = () => {
                 </form>
             </div>
         </div>
-    ); 
-};
+    )
+}
 
-export default InputForm;
+export default FormEdit
