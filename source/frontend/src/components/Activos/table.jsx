@@ -1,8 +1,31 @@
 import React from "react";
-import { Edit, Trash2} from 'lucide-react';
+import { Edit, Trash2, AlertTriangle} from 'lucide-react';
+import Popup from "./popup_delete";
 
 
-const Table = ({data}) => {
+const Table = ({data, onDeleteRefresh}) => {
+    const [showDeletePopup, setShowDeletePopup] = React.useState(false);
+    const [activoToDelete, setActivoToDelete] = React.useState(null);
+
+    function handleDelete() {
+        fetch(`/backend/activos/delete/${activoToDelete}`, {
+            method: 'DELETE',
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            // Refresh the data
+            //handleActivos();
+        })
+        .catch((error) => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+        // Close the popup
+        setShowDeletePopup(false);
+    }
+    
+
     return (
         <div class="overflow-auto flex items-center justify-center">
                     <table class=" w-8/12 shadow rounded-lg">
@@ -61,15 +84,43 @@ const Table = ({data}) => {
                                     </td>
                                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
                                         <button 
-                                                class="px-2 py-2 font-bold text-white transition bg-red-400 rounded hover:bg-red-500"
-                                                onClick={'handleEdit'}
-                                            >
+                                            class="px-2 py-2 font-bold text-white transition bg-red-400 rounded hover:bg-red-500"
+                                            onClick={() => {
+                                                setActivoToDelete(activo.IDActivo);
+                                                setShowDeletePopup(true);
+                                            }}
+                                        >
                                                 <Trash2 size={18} />
                                         </button>
                                     </td>
                                 </tr>
                             );
                         })}
+                        <Popup trigger={showDeletePopup} setTrigger={setShowDeletePopup}>
+                            <div className="flex items-center">
+                                <AlertTriangle className=' w-9 h-8 p-1 text-yellow-600 bg-yellow-400 rounded-full  mr-2' size={10} />
+                                <h3 className="text-center font-myriad font-bold text-xl">
+                                    ¿Estás seguro de que quieres eliminar este activo?
+                                </h3>
+                            </div>
+                            <p className="text-sm italic text-center"> El activo será eliminado de forma permanente </p>
+                            <div className="flex justify-center mt-7 space-x-8">
+                                <button
+                                    className="ml-4 px-2 py-1 flex items-center font-myriad text-lg transition rounded-lg bg-gray-200 hover:bg-gray-300 space-x-2"
+                                    onClick={() => setShowDeletePopup(false)}>
+                                    Cancelar
+                                </button>
+                                <button
+                                    className="ml-4 px-2 py-1 flex items-center font-myriad font-bold text-lg text-yellow-700 transition bg-yellow-400 rounded hover:bg-yellow-500 space-x-2"
+                                    onClick={() => {
+                                        handleDelete();
+                                        onDeleteRefresh(prev => !prev);
+                                    }}
+                                > 
+                                    Confirmar
+                                </button>
+                            </div>
+                        </Popup>
                         </tbody>
                     </table>
                 </div>

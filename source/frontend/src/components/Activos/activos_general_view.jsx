@@ -1,23 +1,27 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {PackagePlus} from 'lucide-react';
 import SearchBar from './search_bar';
 import Table from './table';
 
 const ActivosGeneralView = () => {
+    // for refreshing the table when data is changed
+    const [refresh, setRefresh] = React.useState(false);
+    // search bar query
     const [query, setQuery] = React.useState('');
+    // the activos
     const [data, setData] = React.useState(null);
     
     /* Fetch for endpoint of tarifas */
-    const handleActivos = () => {
+    const handleActivos = useCallback(() => {
         fetch(`/backend/activos/get?q=${query}`)
             .then((res) => res.json())
             .then((data) => setData(data));
-    }
+    }, [query]);
 
     /* Set state */
     React.useEffect(() => {
         handleActivos()
-    }, [query]);
+    }, [handleActivos, refresh]);
 
     return (
         <div> 
@@ -36,7 +40,7 @@ const ActivosGeneralView = () => {
                 </div>
             </div>
             {data ? (
-                <Table data={data}/>
+                <Table onDeleteRefresh={setRefresh} data={data}/>
                // Si aun no esta la data tira este mensaje
             ) : ("Cargando información...")}
         </div>

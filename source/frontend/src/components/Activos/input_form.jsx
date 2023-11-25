@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Check, X } from 'lucide-react';
-import Popup from './popup';
+import Popup from './popup_create';
 
 
 // DONE: Hacer APIS Get para obtener Tipo, Responsable. Ponerlas en los selects
@@ -142,7 +142,7 @@ const InputForm = () => {
                                 </label>
                                 <input class="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                 onChange={e => setFechaAdquisicion(e.target.value)}
-                                id="FechaAdquisicion" type="text" placeholder="2023-11-22 01:38:50"/>
+                                id="FechaAdquisicion" type="text" placeholder="Año-Mes-Día"/>
                             </div>
                         </div>
 

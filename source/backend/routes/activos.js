@@ -97,7 +97,6 @@ router.post('/create/guardar', bodyParser.json(), async (req, res) => {
         await pool.query(sqlQuery, params);
         res.status(200).send({ message: 'Success' });
     } catch (error) {
-        console.error('Error in API create activo'+ error);
         res.status(500).send('Error saving data from Activo ' + error);
     }
 });
@@ -124,5 +123,31 @@ router.get('/responsable/all', async (request, response) => {
         response.status(500).send(error.message);
     }
 });
+
+// Getting all Tipo
+router.get('/tipo/all', async (request, response) => {
+    try {
+        const sqlQuery = 'SELECT IDTipo, Descripcion FROM Tipo;';
+        const rows = await pool.query(sqlQuery);
+        response.status(200).json(rows);
+    } catch (error) {
+        response.status(500).send(error.message);
+    }
+});
+
+// Deleting an Activo
+router.delete('/delete/:id', async (req, res) => {
+    try {
+        console.log('Hello from API delete, this is the id: ' +  req.params.id)
+        const id = req.params.id;
+        const sqlQuery = 'DELETE FROM Activo WHERE IDActivo = ?';
+        await pool.query(sqlQuery, [id]);
+        res.status(200).send('Activo deleted successfully.');
+    } catch (error) {
+        console.log('Error in deleting an activo: ' + error)
+        res.status(500).send('There was a problem deleting the Activo: ' + error.message);
+    }
+});
+
 
 module.exports = router;
