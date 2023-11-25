@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../helpers/DbConfig');
+const bodyParser = require('body-parser');
+
 
 // Getting all activos from db
 router.get('/get', async (request, response) => {
@@ -25,7 +27,7 @@ router.get('/get', async (request, response) => {
         const rows = await pool.query(sqlQuery)
         
         // this filters the data for the search bar
-        const keys = ['IDActivo', 'Tipo', 'Estado', 'Placa', 'ResponsableNombre'];
+        const keys = ['IDActivo', 'Tipo', 'Estado', 'Placa', 'ResponsableNombre', 'Descripcion'];
         const search = (data) => {
             return data.filter((item) =>
               keys.some((key) => 
@@ -80,6 +82,46 @@ router.get('/get/:id', async (request, response) => {
 
     } catch (error) {
         response.status(500).send(error.message)
+    }
+});
+
+/* Post for creating activo */
+router.post('/create/guardar', bodyParser.json(), async (req, res) => {
+    try {
+        let { Placa, Descripcion, FechaAdquisicion, Estado, Proveedor, Fijo, IDResponsable, IDTipo, Observaciones } = req.body;
+        const sqlQuery = `
+            INSERT INTO Activo (Placa, Descripcion, FechaAdquisicion, Estado, Proveedor, ActivoFijo, IDResponsable, IDTipo, Observaciones)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+        `;
+        const params = [Placa, Descripcion, FechaAdquisicion, Estado, Proveedor, Fijo, IDResponsable, IDTipo, Observaciones];
+        await pool.query(sqlQuery, params);
+        res.status(200).send({ message: 'Success' });
+    } catch (error) {
+        console.error('Error in API create activo'+ error);
+        res.status(500).send('Error saving data from Activo ' + error);
+    }
+});
+
+
+// Getting all Tipo
+router.get('/tipo/all', async (request, response) => {
+    try {
+        const sqlQuery = 'SELECT IDTipo, Descripcion FROM Tipo;';
+        const rows = await pool.query(sqlQuery);
+        response.status(200).json(rows);
+    } catch (error) {
+        response.status(500).send(error.message);
+    }
+});
+
+// Getting all Responsable
+router.get('/responsable/all', async (request, response) => {
+    try {
+        const sqlQuery = 'SELECT IDResponsable, Nombre FROM Responsable;';
+        const rows = await pool.query(sqlQuery);
+        response.status(200).json(rows);
+    } catch (error) {
+        response.status(500).send(error.message);
     }
 });
 
