@@ -18,8 +18,8 @@ function RootLayout({children}) {
     return (
         <div className="flex">
             <Sidebar>
-                <SidebarItem icon={<Boxes size={20} />} text={"Activos"} path={"/"} active={location.pathname === "/"} />
-                <SidebarItem icon={<FileBox size={20} />} text={"Tipos"} path={'/about'} active={location.pathname === "/about"}/>
+                <SidebarItem icon={<Boxes size={20} />} text={"Activos"} path={"/"} active={location.pathname.startsWith("/activos")} />
+                <SidebarItem icon={<FileBox size={20} />} text={"Tipos"} path={'/about'} active={location.pathname.startsWith("/about")}/>
                 <hr className="my-3" />
                 <SidebarItem icon={<Users2 size={20} />} text={"Responsables"} />
                 <SidebarItem icon={<Truck size={20} />} text={"Proveedores"} />
@@ -29,7 +29,7 @@ function RootLayout({children}) {
                 <hr className="my-3" />
                 <SidebarItem icon={<Settings size={20} />} text={"Ajustes"} />
             </Sidebar>
-            <main id='page-content' className="justify-center h-full flex-1 px-8 py-4 border-2 mt-16 ml-20">{outlet}</main>
+            <main id='page-content' className="justify-center h-full flex-1 px-8 py-4 mt-16 ml-20">{outlet}</main>
         </div>
     );
 }
