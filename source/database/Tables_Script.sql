@@ -1,18 +1,25 @@
-SHOW COLUMNS FROM activo;
-
-CREATE TABLE Tipo (
+--SHOW COLUMNS FROM activo;
+-- Create the Tipo table
+CREATE TABLE IF NOT EXISTS Tipo (
     IDTipo INT AUTO_INCREMENT PRIMARY KEY,
     Descripcion VARCHAR(255) NOT NULL
 );
 
--- Crear la tabla Responsable
-CREATE TABLE Responsable (
+-- Create the Responsable table
+CREATE TABLE IF NOT EXISTS Responsable (
     IDResponsable INT AUTO_INCREMENT PRIMARY KEY,
     Nombre VARCHAR(255) NOT NULL
 );
 
--- Crear la tabla Activo
-CREATE TABLE Activo (
+-- Create the Proveedor table
+CREATE TABLE IF NOT EXISTS Proveedor (
+    IDProveedor INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL
+);
+
+-- Create the Activo table, referencing Tipo, Responsable, and Proveedor
+CREATE TABLE IF NOT EXISTS Activo (
     IDActivo INT AUTO_INCREMENT PRIMARY KEY,
     IDTipo INT,
     IDResponsable INT,
@@ -24,23 +31,16 @@ CREATE TABLE Activo (
     Estado VARCHAR(50),
     Observaciones TEXT,
     FOREIGN KEY (IDTipo) REFERENCES Tipo(IDTipo),
-    FOREIGN KEY (IDResponsable) REFERENCES Responsable(IDResponsable)
-    FOREIGN KEY (IDProveedor) REFERENCES Proveedor(IDProveedor);
+    FOREIGN KEY (IDResponsable) REFERENCES Responsable(IDResponsable),
+    FOREIGN KEY (IDProveedor) REFERENCES Proveedor(IDProveedor)
 );
 
--- Crear la tabla Bitacora
-CREATE TABLE Bitacora (
+-- Create the Bitacora table, referencing Activo
+CREATE TABLE IF NOT EXISTS Bitacora (
     IDEvento INT AUTO_INCREMENT PRIMARY KEY,
     IDActivo INT,
     Usuario VARCHAR(50) NOT NULL,
     FechaAccion DATETIME,
     EstadoPropuesto VARCHAR(50),
     FOREIGN KEY (IDActivo) REFERENCES Activo(IDActivo)
-);
-
---Crear la tabla proveedor
-CREATE TABLE Proveedor (
-    IDProveedor INT AUTO_INCREMENT PRIMARY KEY,
-    Nombre VARCHAR(255) NOT NULL,
-    Email VARCHAR(255) NOT NULL
 );
