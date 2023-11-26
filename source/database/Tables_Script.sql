@@ -20,11 +20,12 @@ CREATE TABLE Activo (
     Placa INT NOT NULL,
     Descripcion VARCHAR(255) NOT NULL,
     FechaAdquisicion DATE,
-    Proveedor VARCHAR(255),
+    IDProveedor INT,
     Estado VARCHAR(50),
     Observaciones TEXT,
     FOREIGN KEY (IDTipo) REFERENCES Tipo(IDTipo),
     FOREIGN KEY (IDResponsable) REFERENCES Responsable(IDResponsable)
+    FOREIGN KEY (IDProveedor) REFERENCES Proveedor(IDProveedor);
 );
 
 -- Crear la tabla Bitacora
@@ -35,4 +36,11 @@ CREATE TABLE Bitacora (
     FechaAccion DATETIME,
     EstadoPropuesto VARCHAR(50),
     FOREIGN KEY (IDActivo) REFERENCES Activo(IDActivo)
+);
+
+--Crear la tabla proveedor
+CREATE TABLE Proveedor (
+    IDProveedor INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL
 );
