@@ -7,7 +7,7 @@ import Events from './components/GeneralPages/events';
 import ActivosGeneralView from "./components/Activos/activos_general_view";
 import CreateActivo from "./components/Activos/activos_create";
 import EditActivo from "./components/Activos/activos_edit";
-
+import Tipos from './components/Tipos/tipos';
 /* Layout of app with the navbar */
 import RootLayout from "./components/Layout/RootLayout";
 
@@ -26,6 +26,7 @@ const AdminApp = () => {
           <Route path='/activos' element ={<ActivosGeneralView/>}></Route>
           <Route path='/activos/create' element={<CreateActivo/>}></Route>
           <Route path='/activos/edit/:id' element={<EditActivo/>}></Route>
+		  <Route path='/tipos' element ={<Tipos/>}></Route>
           <Route path='/about' element ={<About/>}></Route>
           <Route path='/events' element ={<Events/>}></Route>
         </Route>

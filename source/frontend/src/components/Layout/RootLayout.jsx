@@ -19,7 +19,7 @@ function RootLayout({children}) {
         <div className="flex">
             <Sidebar>
                 <SidebarItem icon={<Boxes size={20} />} text={"Activos"} path={"/"} active={location.pathname.startsWith("/activos")} />
-                <SidebarItem icon={<FileBox size={20} />} text={"Tipos"} path={'/about'} active={location.pathname.startsWith("/about")}/>
+                <SidebarItem icon={<FileBox size={20} />} text={"Tipos"} path={'/tipos'} active={location.pathname.startsWith("/tipos")}/>
                 <hr className="my-3" />
                 <SidebarItem icon={<Users2 size={20} />} text={"Responsables"} />
                 <SidebarItem icon={<Truck size={20} />} text={"Proveedores"} />
