@@ -8,7 +8,7 @@ const dotenv = require("dotenv");
 
 /* APIs routes */
 const activos = require('./routes/activos');
-
+const tipos = require('./routes/tipos');
 dotenv.config();
 
 const app = express();
@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 4000;
 
 /* Setting APIs routes in server */
 app.use('/backend/activos', activos)
-
+app.use('/backend/tipos', tipos)
 
 // Sets JSON as communication language
 app.use(express.json());
