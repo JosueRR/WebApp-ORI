@@ -9,18 +9,18 @@ const InputForm = () => {
     /* Fetches existing Tipo and Responsable from DB */
     const [TipoDB, setTipoDB] = React.useState(null);
     const [ResponsableDB, setResponsableDB] = React.useState(null);
+    const [ProveedorDB, setProveedorDB] = React.useState(null);
     
     /* keeps track of data input from user */
     const [Placa, setPlaca] = React.useState(null);
     const [Descripcion, setDescripcion] = React.useState(null);
     const [FechaAdquisicion, setFechaAdquisicion] = React.useState(null);
     const [Estado, setEstado] = React.useState(null);
-    const [Proveedor, setProveedor] = React.useState(null);
     const [Fijo, setFijo] = React.useState(1);
     const [IDResponsable, setIDResponsable] = React.useState(null);
     const [IDTipo, setIDTipo] = React.useState(null);
+    const [IDProveedor, setIDProveedor] = React.useState(null);
     const [Observaciones, setObservaciones] = React.useState(null);
-
 
 
     /* Fetch for endpoint of TIPOS */
@@ -35,7 +35,7 @@ const InputForm = () => {
             });
     }
 
-    /* Fetch for endpoint of TIPOS */
+    /* Fetch for endpoint of RESPONSABLES */
     const getResponsables = () => {
         fetch(`/backend/activos/responsable/all`)
             .then((res) => res.json())
@@ -47,17 +47,28 @@ const InputForm = () => {
             });
     }
 
+    /* Fetch for endpoint of PROVEEDORES */
+    const getProveedores = () => {
+        fetch(`/backend/activos/proveedor/all`)
+            .then((res) => res.json())
+            .then((ProveedorDB) => {
+                setProveedorDB(ProveedorDB)
+                if (ProveedorDB.length > 0) {
+                    setIDProveedor(ProveedorDB[0].IDProveedor);
+                }
+            });
+    }
+
     /* Handles the form, passes the data to backend and creates an activo */
     function handleForm(event) {
         event.preventDefault()
-        console.log("click")
         let activo = {
             Placa: Placa,
             Descripcion: Descripcion,
             FechaAdquisicion: FechaAdquisicion,
             Estado: Estado,
-            Proveedor: Proveedor,
             Fijo: Fijo,
+            IDProveedor: IDProveedor,
             IDResponsable: IDResponsable,
             IDTipo: IDTipo,
             Observaciones: Observaciones
@@ -87,6 +98,7 @@ const InputForm = () => {
     React.useEffect(() => {
         getResponsables()
         getTipos()
+        getProveedores()
     }, []);
 
 
@@ -120,17 +132,6 @@ const InputForm = () => {
 
                         <div class="flex justify-center w-full h-auto items-center">
                             <div class="mb-6">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="Descripcion">
-                                    Descripción
-                                </label>
-                                <input class="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                onChange={e => setDescripcion(e.target.value)}
-                                id="Descripcion" type="text" placeholder="Silla de escritorio"/>
-                            </div>
-                        </div>
-
-                        <div class="flex justify-center w-full h-auto items-center">
-                            <div class="mb-6">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="FechaAdquisicion">
                                     Fecha de adquisición
                                 </label>
@@ -151,28 +152,42 @@ const InputForm = () => {
                             </div>
                         </div>
 
-                        <div class="flex justify-center w-full h-auto items-center">
+                        <div class="col-span-2 flex justify-center w-full h-auto">
                             <div class="mb-6">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="Proveedor">
-                                    Proveedor
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="Descripcion">
+                                    Descripción
                                 </label>
-                                <input class="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                onChange={e => setProveedor(e.target.value)}
-                                id="Proveedor" type="text" placeholder="Provedor #1"/>
+                                <input class="appearance-none w-96 block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                onChange={e => setDescripcion(e.target.value)}
+                                id="Descripcion" type="text" placeholder="Silla de escritorio"/>
+                            </div>
+                        </div>
+
+                        <div class="col-span-2 flex justify-center w-full h-auto">
+                            <div class="mb-6">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="Observaciones">
+                                    Observaciones
+                                </label>
+                                <input class="appearance-none w-96 block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                onChange={e => setObservaciones(e.target.value)}
+                                id="Observaciones" type="text" placeholder="Daños en el asiento"/>
                             </div>
                         </div>
 
                         <div class="flex justify-center w-full h-auto items-center">
                             <div class="mb-6">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="ActivoFijo">
-                                    ¿Es fijo?
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="IDProveedor">
+                                    Proveedor
                                 </label>
                                 <div class="relative">
-                                    <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                                    onChange={e => setFijo(e.target.value)}
-                                    id="ActivoFijo">
-                                        <option value={1} >Sí</option>
-                                        <option value={0} >No</option>
+                                    <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    onChange={e => setIDProveedor(e.target.value)}
+                                    id="IDProveedor">
+                                        { ProveedorDB ? (
+                                            ProveedorDB.map(proveedor => (
+                                                <option value={proveedor.IDProveedor}> {proveedor.Nombre} </option>
+                                            ))
+                                        ) : (<option disabled> Cargando... </option>) }
                                     </select>
                                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -187,7 +202,7 @@ const InputForm = () => {
                                     Responsable
                                 </label>
                                 <div class="relative">
-                                    <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    <select class="block appearance-none w-full text-center bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     onChange={e => setIDResponsable(e.target.value)}
                                     id="IDResponsable">
                                         { ResponsableDB ? (
@@ -203,13 +218,32 @@ const InputForm = () => {
                             </div>
                         </div>
 
-                        <div class="col-span-2 flex justify-center w-full h-auto items-center">
+                        <div class="flex justify-center w-full h-auto items-center">
+                            <div class="mb-6">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="ActivoFijo">
+                                    ¿Es fijo?
+                                </label>
+                                <div class="relative">
+                                    <select class="block appearance-none w-36 text-center bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                                    onChange={e => setFijo(e.target.value)}
+                                    id="ActivoFijo">
+                                        <option value={1} >Sí</option>
+                                        <option value={0} >No</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-center w-full h-auto items-center">
                             <div class="mb-6">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="IDTipo">
                                     Tipo
                                 </label>
                                 <div class="relative">
-                                    <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    <select class="block appearance-none w-full text-center text-center bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     onChange={e => setIDTipo(e.target.value)}
                                     id="IDTipo">
                                         { TipoDB ? (
@@ -222,17 +256,6 @@ const InputForm = () => {
                                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="col-span-2 flex justify-center w-full h-auto">
-                            <div class="mb-6">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="Observaciones">
-                                    Observaciones
-                                </label>
-                                <input class="appearance-none w-96 block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                onChange={e => setObservaciones(e.target.value)}
-                                id="Observaciones" type="text" placeholder="Daños en el asiento"/>
                             </div>
                         </div>
 

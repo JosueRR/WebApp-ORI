@@ -8,16 +8,17 @@ function FormEdit({ data }) {
     /* Fetches existing Tipo and Responsable from DB */
     const [TipoDB, setTipoDB] = React.useState(null);
     const [ResponsableDB, setResponsableDB] = React.useState(null);
+    const [ProveedorDB, setProveedorDB] = React.useState(null);
     /* keeps track of data input from user */
     const [IDActivo] = React.useState(data.IDActivo);
     const [Placa, setPlaca] = React.useState(data.Placa);
     const [Descripcion, setDescripcion] = React.useState(data.Descripcion);
     const [FechaAdquisicion, setFechaAdquisicion] = React.useState(data.FechaAdquisicion.split('T')[0]);
     const [Estado, setEstado] = React.useState(data.Estado);
-    const [Proveedor, setProveedor] = React.useState(data.Proveedor);
     const [ActivoFijo, setFijo] = React.useState(data.ActivoFijo);
     const [IDResponsable, setIDResponsable] = React.useState(data.IDResponsable);
     const [IDTipo, setIDTipo] = React.useState(data.IDTipo);
+    const [IDProveedor, setIDProveedor] = React.useState(data.IDProveedor);
     const [Observaciones, setObservaciones] = React.useState(data.Observaciones);
 
     function handleForm(event) {
@@ -28,8 +29,8 @@ function FormEdit({ data }) {
             Descripcion: Descripcion,
             FechaAdquisicion: FechaAdquisicion,
             Estado: Estado,
-            Proveedor: Proveedor,
             ActivoFijo: ActivoFijo,
+            IDProveedor: IDProveedor,
             IDResponsable: IDResponsable,
             IDTipo: IDTipo,
             Observaciones: Observaciones
@@ -68,13 +69,19 @@ function FormEdit({ data }) {
             .then((res) => res.json())
             .then((ResponsableDB) => { setResponsableDB(ResponsableDB) });
     }
-    
 
+    /* Fetch for endpoint of TIPOS */
+    const getProveedores = () => {
+        fetch(`/backend/activos/proveedor/all`)
+            .then((res) => res.json())
+            .then((ProveedorDB) => { setProveedorDB(ProveedorDB) });
+    }
 
     /* Set state */
     React.useEffect(() => {
         getResponsables()
         getTipos()
+        getProveedores()
     }, []);
 
     return (
@@ -107,17 +114,6 @@ function FormEdit({ data }) {
 
                         <div class="flex justify-center w-full h-auto items-center">
                             <div class="mb-6">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="Descripcion">
-                                    Descripción
-                                </label>
-                                <input class="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                onChange={e => setDescripcion(e.target.value)}
-                                id="Descripcion" type="text" placeholder={Descripcion}/>
-                            </div>
-                        </div>
-
-                        <div class="flex justify-center w-full h-auto items-center">
-                            <div class="mb-6">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="FechaAdquisicion">
                                     Fecha de adquisición
                                 </label>
@@ -138,29 +134,43 @@ function FormEdit({ data }) {
                             </div>
                         </div>
 
-                        <div class="flex justify-center w-full h-auto items-center">
+                        <div class="col-span-2 flex justify-center w-full h-auto items-center">
                             <div class="mb-6">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="Proveedor">
-                                    Proveedor
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="Descripcion">
+                                    Descripción
                                 </label>
-                                <input class="appearance-none block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                onChange={e => setProveedor(e.target.value)}
-                                id="Proveedor" type="text" placeholder={Proveedor}/>
+                                <input class="appearance-none w-96 block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                onChange={e => setDescripcion(e.target.value)}
+                                id="Descripcion" type="text" placeholder={Descripcion}/>
+                            </div>
+                        </div>
+
+                        <div class="col-span-2 flex justify-center w-full h-auto">
+                            <div class="mb-6">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="Observaciones">
+                                    Observaciones
+                                </label>
+                                <input class="appearance-none w-96 block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                onChange={e => setObservaciones(e.target.value)}
+                                id="Observaciones" type="text" placeholder={Observaciones}/>
                             </div>
                         </div>
 
                         <div class="flex justify-center w-full h-auto items-center">
                             <div class="mb-6">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="ActivoFijo">
-                                    ¿Es fijo?
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="IDProveedor">
+                                Proveedor
                                 </label>
                                 <div class="relative">
-                                    <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-                                    value={ActivoFijo}
-                                    onChange={e => setFijo(e.target.value)}
-                                    id="ActivoFijo">
-                                        <option value={1} >Sí</option>
-                                        <option value={0} >No</option>
+                                    <select class="block appearance-none w-full text-center bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    value={IDProveedor}
+                                    onChange={e => setIDProveedor(e.target.value)}
+                                    id="IDProveedor">
+                                        { ProveedorDB ? (
+                                            ProveedorDB.map(proveedor => (
+                                                <option value={proveedor.IDProveedor}> {proveedor.Nombre} </option>
+                                            ))
+                                        ) : (<option disabled> Cargando... </option>) }
                                     </select>
                                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -175,7 +185,7 @@ function FormEdit({ data }) {
                                     Responsable
                                 </label>
                                 <div class="relative">
-                                    <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    <select class="block appearance-none w-full text-center bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     value={IDResponsable}
                                     onChange={e => setIDResponsable(e.target.value)}
                                     id="IDResponsable">
@@ -192,13 +202,33 @@ function FormEdit({ data }) {
                             </div>
                         </div>
 
-                        <div class="col-span-2 flex justify-center w-full h-auto items-center">
+                        <div class="flex justify-center w-full h-auto items-center">
+                            <div class="mb-6">
+                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="ActivoFijo">
+                                    ¿Es fijo?
+                                </label>
+                                <div class="relative">
+                                    <select class="block appearance-none w-36 text-center bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+                                    value={ActivoFijo}
+                                    onChange={e => setFijo(e.target.value)}
+                                    id="ActivoFijo">
+                                        <option value={1} >Sí</option>
+                                        <option value={0} >No</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-center w-full h-auto items-center">
                             <div class="mb-6">
                                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="IDTipo">
                                     Tipo
                                 </label>
                                 <div class="relative">
-                                    <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    <select class="block appearance-none w-full text-center bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     value={IDTipo}
                                     onChange={e => setIDTipo(e.target.value)}
                                     id="IDTipo">
@@ -212,17 +242,6 @@ function FormEdit({ data }) {
                                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="col-span-2 flex justify-center w-full h-auto">
-                            <div class="mb-6">
-                                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="Observaciones">
-                                    Observaciones
-                                </label>
-                                <input class="appearance-none w-96 block bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                onChange={e => setObservaciones(e.target.value)}
-                                id="Observaciones" type="text" placeholder={Observaciones}/>
                             </div>
                         </div>
 
