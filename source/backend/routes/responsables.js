@@ -44,4 +44,17 @@ router.delete('/delete/:id', async (req, res) => {
     }
 });
 
+/* Post for creating responsable */
+router.post('/create/guardar', bodyParser.json(), async (req, res) => {
+    try {
+        let { Nombre } = req.body;
+        const sqlQuery = `INSERT INTO Responsable (Nombre)VALUES (?);`;
+        const params = [Nombre];
+        await pool.query(sqlQuery, params);
+        res.status(200).send({ message: 'Success' });
+    } catch (error) {
+        res.status(500).send('Error saving data from Responsable ' + error);
+    }
+});
+
 module.exports = router;

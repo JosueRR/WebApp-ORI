@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react';
 import {PackagePlus} from 'lucide-react';
 import Table from './table';
-
+import Popup from "./popup";
+import CreateForm from './create_form';
 
 const Responsables = () => {
 
@@ -26,9 +27,31 @@ const Responsables = () => {
     return (
         <div> 
             <h1 className=' font-myriad font-bold text-4xl mb-4 pointer-events-none'> Responsables </h1>
+            <div className='flex justify-center my-5 space-x-24'>
+                <div>
+                    <button 
+                        class="px-6 py-2 flex items-center font-myriad font-bold text-xl text-black transition 
+                        bg-Celeste2UCR rounded hover:bg-CelesteUCR space-x-2"
+                        onClick={() => {
+                            setShowCreatePopup(true);
+                        }}
+                    >
+                        <span>Crear nuevo responsable</span>
+                        <PackagePlus size={21}/>
+                    </button>
+                </div>
+            </div>
             {data ? (
                 <div>
                     <Table setRefresh={setRefresh} data={data}/>
+                    <Popup trigger={showCreatePopup} setTrigger={setShowCreatePopup}>
+                        <div className="flex items-center">
+                            <h3 className="text-center font-myriad font-bold text-xl">
+                                Agregue un nombre para el nuevo responsable de activo
+                            </h3>
+                        </div>
+                        <CreateForm trigger={showCreatePopup} setTrigger={setShowCreatePopup} setRefresh={setRefresh}/>
+                    </Popup>
                 </div>
             ) : ("Cargando información...")}
         </div>
