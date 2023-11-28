@@ -8,6 +8,7 @@ const dotenv = require("dotenv");
 
 /* APIs routes */
 const activos = require('./routes/activos');
+const proveedores = require('./routes/proveedores');
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ const PORT = process.env.PORT || 4000;
 
 /* Setting APIs routes in server */
 app.use('/backend/activos', activos)
+app.use('/backend/proveedores', proveedores)
 
 
 // Sets JSON as communication language

@@ -22,7 +22,7 @@ function RootLayout({children}) {
                 <SidebarItem icon={<FileBox size={20} />} text={"Tipos"} path={'/about'} active={location.pathname.startsWith("/about")}/>
                 <hr className="my-3" />
                 <SidebarItem icon={<Users2 size={20} />} text={"Responsables"} />
-                <SidebarItem icon={<Truck size={20} />} text={"Proveedores"} />
+                <SidebarItem icon={<Truck size={20} />} text={"Proveedores"} path={'/proveedores'} active={location.pathname.startsWith("/proveedores")}/>
                 <hr className="my-3" />
                 <SidebarItem icon={<ClipboardCheck size={20} />} text={"Solicitudes"} alert/>
                 <SidebarItem icon={<BookOpen size={20} />} text={"Bitacora"} />
