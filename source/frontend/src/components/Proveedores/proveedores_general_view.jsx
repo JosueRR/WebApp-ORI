@@ -3,6 +3,7 @@ import PopupCreate from './popup_create';
 import ProveedoresTable from './table';
 import SearchBar from './search_bar';
 import PopupEdit from './popup_edit';
+import {PackagePlus} from 'lucide-react';
 
 const ProveedoresGeneralView = () => {
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -37,12 +38,13 @@ const ProveedoresGeneralView = () => {
   }, [handleProveedores, refresh]);
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-bold">Proveedores</h1>
+    <div>
+      <h1 className=' font-myriad font-bold text-4xl mb-4 pointer-events-none'> Proveedores </h1>
+      <div className='flex justify-center my-5 space-x-24'>
         <div> <SearchBar onSearchChange={setQuery}/> </div>
-        <button onClick={openModal} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Agregar proveedor
+        <button onClick={openModal} class="px-6 py-2 flex items-center font-myriad font-bold text-xl text-black transition bg-Celeste2UCR rounded hover:bg-CelesteUCR space-x-2">
+          <span>Crear proveedor</span>
+          <PackagePlus size={21}/>
         </button>
         <PopupCreate isOpen={modalOpen} onClose={closeModal} onAdded={toggleRefresh} />
         <PopupEdit isOpen={editModalOpen} onClose={() => setEditModalOpen(false)} proveedorData={currentProveedor} onUpdated={() => setRefresh(prev => !prev)} />
