@@ -10,6 +10,8 @@ const dotenv = require("dotenv");
 const activos = require('./routes/activos');
 const proveedores = require('./routes/proveedores');
 
+const tipos = require('./routes/tipos');
+const responsables = require('./routes/responsables');
 dotenv.config();
 
 const app = express();
@@ -19,6 +21,8 @@ const PORT = process.env.PORT || 4000;
 app.use('/backend/activos', activos)
 app.use('/backend/proveedores', proveedores)
 
+app.use('/backend/tipos', tipos)
+app.use('/backend/responsables', responsables)
 
 // Sets JSON as communication language
 app.use(express.json());

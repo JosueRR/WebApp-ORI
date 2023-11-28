@@ -57,7 +57,8 @@ router.get('/get/:id', async (request, response) => {
             Activo.Descripcion,
             Activo.FechaAdquisicion,
             Activo.Estado,
-            Activo.Proveedor,
+            Proveedor.IDProveedor,
+            Proveedor.Nombre AS ProveedorNombre,
             Activo.ActivoFijo,
             Activo.Observaciones,
             Tipo.IDTipo,
@@ -70,6 +71,8 @@ router.get('/get/:id', async (request, response) => {
             Tipo ON Activo.IDTipo = Tipo.IDTipo
         JOIN 
             Responsable ON Activo.IDResponsable = Responsable.IDResponsable
+        JOIN
+            Proveedor ON Activo.IDProveedor = Proveedor.IDProveedor
         WHERE 
             Activo.IDActivo = ?;
         `;
@@ -83,12 +86,12 @@ router.get('/get/:id', async (request, response) => {
 /* Post for creating activo */
 router.post('/create/guardar', bodyParser.json(), async (req, res) => {
     try {
-        let { Placa, Descripcion, FechaAdquisicion, Estado, Proveedor, Fijo, IDResponsable, IDTipo, Observaciones } = req.body;
+        let { Placa, Descripcion, FechaAdquisicion, Estado, IDProveedor, Fijo, IDResponsable, IDTipo, Observaciones } = req.body;
         const sqlQuery = `
-            INSERT INTO Activo (Placa, Descripcion, FechaAdquisicion, Estado, Proveedor, ActivoFijo, IDResponsable, IDTipo, Observaciones)
+            INSERT INTO Activo (Placa, Descripcion, FechaAdquisicion, Estado, IDProveedor, ActivoFijo, IDResponsable, IDTipo, Observaciones)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
         `;
-        const params = [Placa, Descripcion, FechaAdquisicion, Estado, Proveedor, Fijo, IDResponsable, IDTipo, Observaciones];
+        const params = [Placa, Descripcion, FechaAdquisicion, Estado, IDProveedor, Fijo, IDResponsable, IDTipo, Observaciones];
         await pool.query(sqlQuery, params);
         res.status(200).send({ message: 'Success' });
     } catch (error) {
@@ -119,10 +122,10 @@ router.get('/responsable/all', async (request, response) => {
     }
 });
 
-// Getting all Tipo
-router.get('/tipo/all', async (request, response) => {
+// Getting all Proveedor
+router.get('/proveedor/all', async (request, response) => {
     try {
-        const sqlQuery = 'SELECT IDTipo, Descripcion FROM Tipo;';
+        const sqlQuery = 'SELECT IDProveedor, Nombre FROM Proveedor;';
         const rows = await pool.query(sqlQuery);
         response.status(200).json(rows);
     } catch (error) {
@@ -145,13 +148,13 @@ router.delete('/delete/:id', async (req, res) => {
 /* Post for editing activo */
 router.post('/edit/guardar', bodyParser.json(), async (req, res) => {
     try {
-        let { IDActivo, Placa, Descripcion, FechaAdquisicion, Estado, Proveedor, ActivoFijo, IDResponsable, IDTipo, Observaciones } = req.body;
+        let { IDActivo, Placa, Descripcion, FechaAdquisicion, Estado, IDProveedor, ActivoFijo, IDResponsable, IDTipo, Observaciones } = req.body;
         const sqlQuery = `
             UPDATE Activo 
-            SET Placa = ?, Descripcion = ?, FechaAdquisicion = ?, Estado = ?, Proveedor = ?, ActivoFijo = ?, IDResponsable = ?, IDTipo = ?, Observaciones = ?
+            SET Placa = ?, Descripcion = ?, FechaAdquisicion = ?, Estado = ?, IDProveedor = ?, ActivoFijo = ?, IDResponsable = ?, IDTipo = ?, Observaciones = ?
             WHERE IDActivo = ?;
         `;
-        const params = [Placa, Descripcion, FechaAdquisicion, Estado, Proveedor, ActivoFijo, IDResponsable, IDTipo, Observaciones, IDActivo];
+        const params = [Placa, Descripcion, FechaAdquisicion, Estado, IDProveedor, ActivoFijo, IDResponsable, IDTipo, Observaciones, IDActivo];
         await pool.query(sqlQuery, params);
         res.status(200).send({ message: 'Success' });
     } catch (error) {
