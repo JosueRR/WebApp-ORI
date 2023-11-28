@@ -70,7 +70,7 @@ const ProveedoresTable = ({ data, onDeleteRefresh, onEdit }) => {
                 ¿Estás seguro de que quieres eliminar este proveedor?
             </h3>
             </div>
-            <p className="text-sm italic text-center">El activo será eliminado de forma permanente</p>
+            <p className="text-sm italic text-center">El proveedor será eliminado de forma permanente</p>
             <div className="flex justify-center mt-7 space-x-8">
             <button
                 className="ml-4 px-2 py-1 flex items-center font-myriad text-lg transition rounded-lg bg-gray-200 hover:bg-gray-300 space-x-2"
