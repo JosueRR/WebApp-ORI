@@ -32,4 +32,16 @@ router.get('/get', async (request, response) => {
     }
 });
 
+// Deleting a Responsable
+router.delete('/delete/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const sqlQuery = 'DELETE FROM Responsable WHERE IDResponsable = ?';
+        await pool.query(sqlQuery, [id]);
+        res.status(200).send('Responsable deleted successfully.');
+    } catch (error) {
+        res.status(500).send('There was a problem deleting the Responsable: ' + error.message);
+    }
+});
+
 module.exports = router;
