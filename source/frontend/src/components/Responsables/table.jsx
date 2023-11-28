@@ -1,13 +1,14 @@
 import React from "react";
 import { Edit, Trash2, AlertTriangle} from 'lucide-react';
 import Popup from "./popup";
+import EditForm from "./edit_form";
 
 const Table = ({data, setRefresh}) => {
     const [showDeletePopup, setShowDeletePopup] = React.useState(false);
     const [responsableToDelete, setResponsableToDelete] = React.useState(null);
     const [showEditPopup, setShowEditPopup] = React.useState(false);
     const [id, setId] = React.useState(null);
-    const [descripcion, setDescripcion] = React.useState(null);
+    const [nombre, setNombre] = React.useState(null);
 
     function handleDelete() {
         fetch(`/backend/responsables/delete/${responsableToDelete}`, {
@@ -48,6 +49,11 @@ const Table = ({data, setRefresh}) => {
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap items-center justify-center flex">
                                 <button 
                                     class="px-2 py-2 font-bold text-white transition bg-blue-500 rounded hover:bg-blue-700"
+                                    onClick={() => {
+                                        setId(responsable.IDResponsable);
+                                        setNombre(responsable.Nombre);
+                                        setShowEditPopup(true);
+                                    }}
                                 >
                                     <Edit size={18} />
                                 </button>
@@ -91,6 +97,14 @@ const Table = ({data, setRefresh}) => {
                             Confirmar
                         </button>
                     </div>
+                </Popup>
+                <Popup trigger={showEditPopup} setTrigger={setShowEditPopup}>
+                    <div className="flex items-center">
+                        <h3 className="ms-8 me-8 text-center font-myriad font-bold text-xl">
+                            Editando nombre del responsable {id}
+                        </h3>
+                    </div>
+                    <EditForm trigger={showEditPopup} setTrigger={setShowEditPopup} setRefresh={setRefresh} id={id} nombre={nombre}/>
                 </Popup>
                 </tbody>
             </table>

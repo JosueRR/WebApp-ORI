@@ -57,4 +57,22 @@ router.post('/create/guardar', bodyParser.json(), async (req, res) => {
     }
 });
 
+/* Post for editing responsable */
+router.post('/edit/guardar', bodyParser.json(), async (req, res) => {
+    try {
+        let { IDResponsable, Nombre } = req.body;
+        const sqlQuery = `
+            UPDATE Responsable 
+            SET Nombre = ?
+            WHERE IDResponsable = ?;
+        `;
+        const params = [Nombre, IDResponsable];
+        await pool.query(sqlQuery, params);
+        res.status(200).send({ message: 'Success' });
+    } catch (error) {
+        console.log('Error updating a responsable ' + error)
+        res.status(500).send('Error updating data from Responsable ' + error);
+    }
+});
+
 module.exports = router;
