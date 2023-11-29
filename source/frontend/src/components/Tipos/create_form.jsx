@@ -49,13 +49,13 @@ const CreateForm = ({ trigger, setTrigger, setRefresh }) => {
                         </div>
                         <div className="flex justify-center mt-7 space-x-8">
                             <button
-                                className="ml-4 px-2 py-1 flex items-center font-myriad text-lg text-white transition rounded-lg bg-red-500 hover:bg-red-700 space-x-2"
+                                className="ml-4 px-2 py-1 flex items-center font-myriad text-lg text-white transition rounded-lg bg-red-400 hover:bg-red-600 space-x-2"
                                 onClick={() => setTrigger(false)}>
                                 Cancelar
                             </button>
                             <button
                                 type="submit"
-                                className="ml-4 px-2 py-1 flex items-center font-myriad text-lg text-white transition bg-blue-500 rounded hover:bg-blue-700 space-x-2"
+                                className="ml-4 px-2 py-1 flex items-center font-myriad text-lg text-white transition bg-blue-400 rounded hover:bg-blue-600 space-x-2"
                             > 
                                 Confirmar
                             </button>
@@ -68,7 +68,7 @@ const CreateForm = ({ trigger, setTrigger, setRefresh }) => {
                     </p>
                     <div className="flex justify-center mt-7 space-x-8">
                         <button
-                            className="ml-4 px-2 py-1 flex items-center font-myriad text-lg text-white transition rounded-lg bg-blue-500 hover:bg-blue-700 space-x-2"
+                            className="ml-4 px-2 py-1 flex items-center font-myriad text-lg text-white transition rounded-lg bg-blue-400 hover:bg-blue-600 space-x-2"
                             onClick={() => {
                                 setTrigger(false);
                                 setRefresh(prev => !prev);
