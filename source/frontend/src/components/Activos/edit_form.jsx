@@ -256,9 +256,14 @@ function FormEdit({ data }) {
                         <div class="col-span-2 flex justify-center w-full h-auto">
                             <div class="mb-6 flex-col items-center">
                                 <div class="relative">
-                                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => navigate(`/activos/edit/${data.IDActivo}`)}>
-                                        Bitácora
-                                    </button>  
+                                    <a href={`/bitacora/${data.IDActivo}`}> 
+                                        <button 
+                                            class="ml-4 px-2 py-1 flex items-center font-myriad font-bold text-lg text-white transition bg-blue-500 rounded hover:bg-blue-600 space-x-2"
+                                            type="button"
+                                        >
+                                            <span> Bitácora </span>
+                                        </button>
+                                    </a>   
                                 </div>
                             </div>
                         </div>

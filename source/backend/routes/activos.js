@@ -94,6 +94,9 @@ router.post('/create/guardar', bodyParser.json(), async (req, res) => {
         const params = [Placa, Descripcion, FechaAdquisicion, Estado, IDProveedor, Fijo, IDResponsable, IDTipo, Observaciones];
         await pool.query(sqlQuery, params);
         res.status(200).send({ message: 'Success' });
+
+        
+
     } catch (error) {
         res.status(500).send('Error saving data from Activo ' + error);
     }
@@ -163,5 +166,23 @@ router.post('/edit/guardar', bodyParser.json(), async (req, res) => {
     }
 });
 
+function AgregarBitacora(IDActivo, EstadoPropuesto) {
+    const fechaAccion = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+    const query = `
+    INSERT INTO Bitacora (IDActivo, Usuario, FechaAccion, EstadoPropuesto)
+    VALUES (?, ?, ?, ?);
+  `;
+
+  const values = [IDActivo, 'Admin', fechaAccion, EstadoPropuesto];
+
+  connection.query(query, values, (error, results) => {
+    if (error) {
+      console.error('Error al insertar en la tabla Bitacora:', error);
+    } else {
+      console.log('Se agregó una nueva entrada en la tabla Bitacora:', results.insertId);
+    }
+  });
+}
 
 module.exports = router;

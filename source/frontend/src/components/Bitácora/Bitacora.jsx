@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import TableComponent from './log_table';
 
-const Bitacora = ({ match }) => {
+const Bitacora = ({}) => {
   const [data, setData] = useState({ nombreActivo: '', bitacora: [] });
-  const { params } = match;
-  const { IDActivo } = params;
+  let { IDActivo } = useParams();
 
   useEffect(() => {
     // Hacer la solicitud fetch al backend cuando el componente se monta
-    fetch('/api/bitacora/${IDActivo}')
+    fetch(`/api/bitacora/${IDActivo}`)
       .then(response => response.json())
       .then(resultData => setData(resultData))
       .catch(error => console.error('Error al obtener datos:', error));

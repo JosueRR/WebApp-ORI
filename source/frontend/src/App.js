@@ -37,7 +37,7 @@ const AdminApp = () => {
           <Route path='/about' element ={<About/>}></Route>
           <Route path='/events' element ={<Events/>}></Route>
           <Route path='/proveedores' element ={<ProveedoresGeneralView/>}></Route>;
-          <Route path='/bitacora' element ={<Bitacora/>}></Route>
+          <Route path='/bitacora/:id' element ={<Bitacora/>}></Route>
         </Route>
       </Routes>
     </div>
