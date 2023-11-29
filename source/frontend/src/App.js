@@ -9,6 +9,9 @@ import CreateActivo from "./components/Activos/activos_create";
 import EditActivo from "./components/Activos/activos_edit";
 import ProveedoresGeneralView from "./components/Proveedores/proveedores_general_view";
 
+/* Log */
+import Bitacora from "./components/Bitácora/Bitacora";
+
 import Tipos from './components/Tipos/tipos';
 import Responsables from './components/Responsables/responsables';
 /* Layout of app with the navbar */
@@ -34,6 +37,7 @@ const AdminApp = () => {
           <Route path='/about' element ={<About/>}></Route>
           <Route path='/events' element ={<Events/>}></Route>
           <Route path='/proveedores' element ={<ProveedoresGeneralView/>}></Route>;
+          <Route path='/bitacora' element ={<Bitacora/>}></Route>
         </Route>
       </Routes>
     </div>

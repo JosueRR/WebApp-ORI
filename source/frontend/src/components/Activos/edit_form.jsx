@@ -1,6 +1,7 @@
 import React from 'react'
 import { Check, X } from 'lucide-react';
 import Popup from './popup_create';
+import { Link, useNavigate } from 'react-router-dom';
 
 function FormEdit({ data }) {
     /* Manages popup */
@@ -20,6 +21,7 @@ function FormEdit({ data }) {
     const [IDTipo, setIDTipo] = React.useState(data.IDTipo);
     const [IDProveedor, setIDProveedor] = React.useState(data.IDProveedor);
     const [Observaciones, setObservaciones] = React.useState(data.Observaciones);
+    const navigate = useNavigate();
 
     function handleForm(event) {
         event.preventDefault();
@@ -84,6 +86,12 @@ function FormEdit({ data }) {
         getProveedores()
     }, []);
 
+    const handleBitacoraClick = () => {
+        if (IDActivo) {
+          navigate(`/bitacora/${IDActivo}`);
+        }
+      };
+    
     return (
         <div>
             <div className=''>
@@ -241,6 +249,16 @@ function FormEdit({ data }) {
                                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                         <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-span-2 flex justify-center w-full h-auto">
+                            <div class="mb-6 flex-col items-center">
+                                <div class="relative">
+                                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => navigate(`/activos/edit/${data.IDActivo}`)}>
+                                        Bitácora
+                                    </button>  
                                 </div>
                             </div>
                         </div>
