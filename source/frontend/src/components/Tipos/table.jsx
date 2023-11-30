@@ -33,8 +33,7 @@ const Table = ({data, setRefresh}) => {
                     <tr>
                         <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left pointer-events-none">Id</th>
                         <th class="p-3 text-sm font-semibold tracking-wide text-left pointer-events-none">Descripción</th>
-                        <th class="w-28 p-3 text-sm font-semibold tracking-wide text-center pointer-events-none"></th>
-                        <th class="w-20 p-3 text-sm font-semibold tracking-wide text-center pointer-events-none"></th>
+                        <th class="p-3 text-sm font-semibold tracking-wide text-center pointer-events-none">Opciones</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
@@ -47,9 +46,9 @@ const Table = ({data, setRefresh}) => {
                             <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
                                 {tipo.Descripcion}
                             </td>
-                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap items-center justify-center flex">
+                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap items-center justify-around flex">
                                 <button 
-                                    class="px-2 py-2 font-bold text-white transition bg-blue-500 rounded hover:bg-blue-700"
+                                    class="px-2 py-2 font-bold text-white transition bg-blue-400 rounded hover:bg-blue-600"
                                     onClick={() => {
                                         setId(tipo.IDTipo);
                                         setDescripcion(tipo.Descripcion);
@@ -58,10 +57,8 @@ const Table = ({data, setRefresh}) => {
                                 >
                                     <Edit size={18} />
                                 </button>
-                            </td>
-                            <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
                                 <button 
-                                    class="px-2 py-2 font-bold text-white transition bg-red-500 rounded hover:bg-red-700"
+                                    class="px-2 py-2 font-bold text-white transition bg-red-400 rounded hover:bg-red-600"
                                     onClick={() => {
                                         setTipoToDelete(tipo.IDTipo);
                                         setShowDeletePopup(true);
@@ -75,7 +72,7 @@ const Table = ({data, setRefresh}) => {
                 })}
                 <Popup trigger={showDeletePopup} setTrigger={setShowDeletePopup}>
                     <div className="flex items-center">
-                        <AlertTriangle className=' w-9 h-8 p-1 text-white bg-yellow-500 rounded-full  mr-2' size={10} />
+                        <AlertTriangle className=' w-9 h-8 p-1 text-white bg-yellow-400 rounded-full  mr-2' size={10} />
                         <h3 className="text-center font-myriad font-bold text-xl">
                             ¿Estás seguro de que quieres eliminar este tipo?
                         </h3>
@@ -84,12 +81,12 @@ const Table = ({data, setRefresh}) => {
                     <p className="text-sm italic text-center"> (No se podrá eliminar un tipo si este se encuentra asignado a un activo) </p>
                     <div className="flex justify-center mt-7 space-x-8">
                         <button
-                            className="ml-4 px-2 py-1 flex items-center font-myriad text-lg text-white transition rounded-lg bg-red-500 hover:bg-red-700 space-x-2"
+                            className="ml-4 px-2 py-1 flex items-center font-myriad text-lg text-white transition rounded-lg bg-red-400 hover:bg-red-600 space-x-2"
                             onClick={() => setShowDeletePopup(false)}>
                             Cancelar
                         </button>
                         <button
-                            className="ml-4 px-2 py-1 flex items-center font-myriad text-lg text-white transition bg-blue-500 rounded hover:bg-blue-700 space-x-2"
+                            className="ml-4 px-2 py-1 flex items-center font-myriad text-lg text-white transition bg-blue-400 rounded hover:bg-blue-600 space-x-2"
                             onClick={() => {
                                 handleDelete();
                                 setRefresh(prev => !prev);
