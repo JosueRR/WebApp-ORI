@@ -92,7 +92,14 @@ router.post('/create/guardar', bodyParser.json(), async (req, res) => {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
         `;
         const params = [Placa, Descripcion, FechaAdquisicion, Estado, IDProveedor, Fijo, IDResponsable, IDTipo, Observaciones];
-        await pool.query(sqlQuery, params);
+        const result = await pool.query(sqlQuery, params);
+
+        const ActivoID = result.insertId;
+        const fechaActual = new Date();
+        const sqlQuery2 = 'INSERT INTO Bitacora (IDActivo, Usuario, FechaAccion, EstadoPropuesto) VALUES (?, ?, ?, ?)';
+        const params2 = [ActivoID, 'Admin', fechaActual ,Estado];
+        await pool.query(sqlQuery2, params2);
+
         res.status(200).send({ message: 'Success' });
 
         
@@ -159,6 +166,13 @@ router.post('/edit/guardar', bodyParser.json(), async (req, res) => {
         `;
         const params = [Placa, Descripcion, FechaAdquisicion, Estado, IDProveedor, ActivoFijo, IDResponsable, IDTipo, Observaciones, IDActivo];
         await pool.query(sqlQuery, params);
+
+        const fechaActual = new Date();
+        const sqlQuery2 = 'INSERT INTO Bitacora (IDActivo, Usuario, FechaAccion, EstadoPropuesto) VALUES (?, ?, ?, ?)';
+        const params2 = [IDActivo, 'Admin', fechaActual ,Estado];
+        
+        await pool.query(sqlQuery2, params2);
+
         res.status(200).send({ message: 'Success' });
     } catch (error) {
         console.log('Error updating an activo ' + error)
