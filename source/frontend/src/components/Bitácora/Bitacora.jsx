@@ -3,23 +3,23 @@ import { useParams } from 'react-router-dom';
 import TableComponent from './log_table';
 
 const Bitacora = ({}) => {
-  const [data, setData] = useState({ nombreActivo: '', bitacora: [] });
-  let { IDActivo } = useParams();
+  const { IDActivo } = useParams();
+  const [data, setData] = useState({});
 
   useEffect(() => {
-    // Hacer la solicitud fetch al backend cuando el componente se monta
-    fetch(`/api/bitacora/${IDActivo}`)
+    // Esto trae la bitácora del activo según su ID, está en bitacora.js
+    fetch(`/backend/bitacora/bitacora/${IDActivo}`)
       .then(response => response.json())
-      .then(resultData => setData(resultData))
-      .catch(error => console.error('Error al obtener datos:', error));
+      .then(data => setData(data))
+      .catch(error => console.error('Error fetching data:', error));
   }, [IDActivo]);
-  
-    return (
-      <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">Bitácora del Activo {data.nombreActivo}</h1>
-        <TableComponent data={data} />
-      </div>
-    );
-  };
+
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Bitácora del Activo {data.nombreActivo}</h1>
+      <TableComponent data={data} />
+    </div>
+  );
+};
 
 export default Bitacora;

@@ -12,6 +12,7 @@ const proveedores = require('./routes/proveedores');
 
 const tipos = require('./routes/tipos');
 const responsables = require('./routes/responsables');
+const bitacora = require('./routes/bitacora');
 dotenv.config();
 
 const app = express();
@@ -23,6 +24,7 @@ app.use('/backend/proveedores', proveedores)
 
 app.use('/backend/tipos', tipos)
 app.use('/backend/responsables', responsables)
+app.use('/backend/bitacora', bitacora)
 
 // Sets JSON as communication language
 app.use(express.json());

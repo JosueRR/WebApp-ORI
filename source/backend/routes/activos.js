@@ -170,7 +170,7 @@ router.post('/edit/guardar', bodyParser.json(), async (req, res) => {
         const fechaActual = new Date();
         const sqlQuery2 = 'INSERT INTO Bitacora (IDActivo, Usuario, FechaAccion, EstadoPropuesto) VALUES (?, ?, ?, ?)';
         const params2 = [IDActivo, 'Admin', fechaActual ,Estado];
-        
+
         await pool.query(sqlQuery2, params2);
 
         res.status(200).send({ message: 'Success' });
@@ -179,24 +179,5 @@ router.post('/edit/guardar', bodyParser.json(), async (req, res) => {
         res.status(500).send('Error updating data from Activo ' + error);
     }
 });
-
-function AgregarBitacora(IDActivo, EstadoPropuesto) {
-    const fechaAccion = new Date().toISOString().slice(0, 19).replace('T', ' ');
-
-    const query = `
-    INSERT INTO Bitacora (IDActivo, Usuario, FechaAccion, EstadoPropuesto)
-    VALUES (?, ?, ?, ?);
-  `;
-
-  const values = [IDActivo, 'Admin', fechaAccion, EstadoPropuesto];
-
-  connection.query(query, values, (error, results) => {
-    if (error) {
-      console.error('Error al insertar en la tabla Bitacora:', error);
-    } else {
-      console.log('Se agregó una nueva entrada en la tabla Bitacora:', results.insertId);
-    }
-  });
-}
 
 module.exports = router;

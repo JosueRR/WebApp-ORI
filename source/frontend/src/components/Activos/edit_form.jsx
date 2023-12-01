@@ -85,12 +85,6 @@ function FormEdit({ data }) {
         getTipos()
         getProveedores()
     }, []);
-
-    const handleBitacoraClick = () => {
-        if (IDActivo) {
-          navigate(`/bitacora/${IDActivo}`);
-        }
-      };
     
     return (
         <div>
