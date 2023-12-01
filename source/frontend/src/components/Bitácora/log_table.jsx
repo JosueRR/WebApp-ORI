@@ -15,9 +15,9 @@ const Log_Table = ({ data }) => {
         {Array.isArray(data) && data.length > 0 ? (
           data.map((Fila, index) => (
             <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-              <td className="p-3 text-sm text-gray-700">{Fila.fechaCambio}</td>
-              <td className="p-3 text-sm text-gray-700">{Fila.estado}</td>
-              <td className="p-3 text-sm text-gray-700">{Fila.usuario}</td>
+              <td className="p-3 text-sm text-gray-700">{Fila.FechaAccion}</td>
+              <td className="p-3 text-sm text-gray-700">{Fila.EstadoPropuesto}</td>
+              <td className="p-3 text-sm text-gray-700">{Fila.Usuario}</td>
             </tr>
           ))
         ) : (
